@@ -90,8 +90,7 @@ Class imbalance handled using SMOTE
 Final predictions saved in sub.csv with the format:
 
 csv
-نسخ
-تحرير
+
 Id,Class
 1,Rock
 2,Indie
