@@ -1,106 +1,115 @@
-# Enhancing-Music-Genre-Classification-with-Machine-Learning
-This project focuses on building a robust machine learning pipeline to classify music tracks into their respective genres using structured audio features. The dataset includes 18 audio features per track, and the model aims to accurately assign one of several genre classes such as Rock, Pop, HipHop, Instrumental, Country, and more.
+# 🎵 Music Genre Classification with Machine Learning
 
-📌 Project Objective
-To develop, train, and optimize machine learning models to predict music genres based on audio features with the goal of achieving high accuracy, precision, recall, and F1-score.
+This project focuses on building a robust machine learning pipeline to classify music tracks into their respective genres using structured audio features. Each track includes 18 numerical features, such as danceability, tempo, and energy. The goal is to accurately assign each track one of several genre labels like **Rock**, **Pop**, **HipHop**, **Instrumental**, **Country**, and more.
 
-📂 Dataset
-The dataset used in this project includes:
+---
 
-Train: 14,396 tracks with 18 audio features and labeled genres.
+## 📌 Project Objective
 
-Test: 3,600 tracks with the same features (used for final predictions).
+**To develop, train, and optimize machine learning models that classify music genres based on extracted audio features, aiming for high accuracy, precision, recall, and F1-score.**
 
-Source: Kaggle Competition: Music Genre Classification 2024
+---
 
-Each track includes:
+## 📂 Dataset
 
-Audio metrics like danceability, energy, acousticness, valence, etc.
+- **Train**: 14,396 tracks with 18 features and labeled genres  
+- **Test**: 3,600 tracks for prediction (unlabeled)  
+- **Source**: [Kaggle Competition - Music Genre Classification 2024](https://www.kaggle.com/competitions/music-genre-classification-2024)
 
-Temporal and structural features like tempo, duration, key, and time_signature.
+### 🔢 Features Include
 
-🧠 Machine Learning Pipeline
-1. 🧼 Data Preprocessing
-Handling missing values via mean imputation (Popularity, key, instrumentalness)
+- Audio characteristics: `danceability`, `energy`, `acousticness`, `valence`, `loudness`
+- Temporal / structural features: `tempo`, `duration`, `key`, `time_signature`, `instrumentalness`
 
-Label encoding for the target Class
+---
 
-Feature engineering:
+## 🧠 Machine Learning Pipeline
 
-danceability_energy = danceability × energy
+### 🧼 Data Preprocessing
 
-loudness_valence = loudness × valence
+- Mean imputation of missing values (`Popularity`, `Key`, `Instrumentalness`)
+- Label encoding for `Class` (target)
+- **Feature engineering:**
+  - `danceability_energy` = danceability × energy
+  - `loudness_valence` = loudness × valence
+  - `log_duration` = log(duration)
+- Tempo binning (`slow`, `medium`, `fast`)
+- One-hot encoding for `tempo_bin`, `key`
+- Feature scaling using `StandardScaler`
 
-log_duration = log(duration)
+---
 
-Feature binning (e.g. tempo → slow, medium, fast)
+## 📊 Exploratory Data Analysis (EDA)
 
-One-Hot Encoding for categorical features (tempo_bin, key)
+- Genre distribution via count plots
+- Correlation matrix between audio features
+- Boxplots and violin plots by genre
 
-Feature scaling using StandardScaler
+---
 
-2. 📊 Exploratory Data Analysis
-Genre distribution using countplots
+## ⚙️ Model Training & Evaluation
 
-Correlation matrix of numerical features
+### ✅ Models Evaluated
 
-Distribution and boxplot/violinplot comparisons by genre
+- Logistic Regression  
+- K-Nearest Neighbors (KNN)  
+- Support Vector Machine (SVM)  
+- Decision Tree  
+- Random Forest  
+- Gradient Boosting  
+- **XGBoost** (final chosen model)
 
-3. ⚙️ Model Training & Evaluation
-Models Evaluated:
+### 📏 Evaluation Metrics
 
-Logistic Regression
+- Accuracy  
+- Precision  
+- Recall  
+- F1-Score  
+- Confusion Matrix
 
-Support Vector Machine (SVM)
+### 🔥 Best Results
 
-K-Nearest Neighbors (KNN)
+- **XGBoost** with tuned hyperparameters via `GridSearchCV`
+- **Macro F1-score**: `0.552`
+- **Best genres identified**: HipHop, Blues, Bollywood
 
-Decision Tree
+---
 
-Random Forest
+## 🧪 Hyperparameter Tuning
 
-Gradient Boosting
-
-XGBoost (final model)
-
-Evaluation Metrics:
-
-Accuracy
-
-Precision
-
-Recall
-
-F1-Score
-
-Confusion Matrix
-
-Best Results:
-
-📈 XGBoost with tuned hyperparameters (GridSearchCV)
-
-Best macro F1-score: 0.552
-
-Best genres identified: HipHop, Blues, Bollywood
-
-🧪 Hyperparameter Tuning
-Tuned the final model (XGBoost) with:
-
+```python
+params = {
+    'xgb__learning_rate': [0.1, 0.01],
+    'xgb__max_depth': [3, 5, 7],
+    'xgb__reg_lambda': [1, 1.5, 2],
+    'xgb__gamma': [1, 2],
+}
+Class imbalance handled using SMOTE
 
 📁 Output
-Final predictions stored in sub.csv with format:
+Final predictions saved in sub.csv with the format:
 
 csv
-Id, Class
-1, Rock
-2, Indie
+نسخ
+تحرير
+Id,Class
+1,Rock
+2,Indie
 ...
 🔍 Key Insights
-Genre classes are moderately imbalanced.
+Dataset contains moderate class imbalance
 
-Energy, valence, and danceability are highly influential features.
+Energy, valence, and danceability are top predictive features
 
-XGBoost outperformed other models, especially with SMOTE and feature engineering.
+XGBoost + SMOTE + feature engineering gave the best results
 
-Some genres (e.g., Acoustic/Folk, Bollywood) benefit significantly from engineered features.
+Minor genres like Acoustic/Folk and Bollywood benefited most from feature engineering
 
+🧩 Future Enhancements
+Use spectrograms with CNNs (deep learning)
+
+Try ensemble stacking or voting classifiers
+
+Improve class balance via smarter augmentation
+
+Include audio metadata (e.g., lyrics, mood)
